@@ -1,0 +1,2569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExamHub - Learn. Practice. Excel.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ethiopia-green: #078930;
+            --ethiopia-yellow: #FCDD09;
+            --ethiopia-red: #DA121A;
+            --primary: #078930;
+            --primary-dark: #056622;
+            --primary-light: #e8f5ec;
+            --accent: #FCDD09;
+            --accent-dark: #d4b600;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-card: #ffffff;
+            --border: #e5e7eb;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark {
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #1e293b;
+            --border: #334155;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s ease, color 0.3s ease;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 100%;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Enhanced Background Pattern */
+        .auth-screen::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                linear-gradient(135deg, var(--ethiopia-green) 0%, rgba(7, 137, 48, 0.8) 50%, rgba(7, 137, 48, 0.6) 100%),
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(252, 221, 9, 0.05) 35px, rgba(252, 221, 9, 0.05) 70px);
+            z-index: -1;
+        }
+
+        .dark .auth-screen::before {
+            background:
+                linear-gradient(135deg, rgba(5, 102, 34, 0.95) 0%, rgba(7, 137, 48, 0.85) 50%, rgba(7, 137, 48, 0.75) 100%),
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(252, 221, 9, 0.03) 35px, rgba(252, 221, 9, 0.03) 70px);
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-toggle {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: rotate(180deg);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        /* Screen Management */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Auth Screens */
+        .auth-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .auth-card {
+            background: var(--bg-card);
+            padding: 3rem 2.5rem;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            max-width: 450px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .dark .auth-card {
+            background: rgba(30, 41, 59, 0.95);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            margin: 0 auto 1.5rem;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .auth-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .auth-subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-size: 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 4px rgba(7, 137, 48, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            font-size: 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 4px rgba(7, 137, 48, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+            padding: 0.875rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--primary-dark));
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(252, 221, 9, 0.1);
+            border-radius: 50%;
+        }
+
+        .welcome-section::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 200px;
+            height: 200px;
+            background: rgba(252, 221, 9, 0.08);
+            border-radius: 50%;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-greeting {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-tagline {
+            font-size: 1rem;
+            opacity: 0.85;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            font-family: 'Manrope', sans-serif;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .subject-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--ethiopia-green), var(--ethiopia-yellow), var(--ethiopia-red));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+
+        .subject-card:hover::before {
+            opacity: 1;
+        }
+
+        .subject-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .subject-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .subject-questions {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .subject-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Quiz Screen */
+        .quiz-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .quiz-header {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .quiz-subject {
+            font-size: 1rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .quiz-progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .quiz-score {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .quiz-progress-bar {
+            height: 10px;
+            background: var(--bg-secondary);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--bg-card);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .question-text {
+            font-size: 1.35rem;
+            font-weight: 600;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1.25rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .option-letter {
+            width: 36px;
+            height: 36px;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .option:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateX(8px);
+        }
+
+        .option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .option.selected .option-letter {
+            background: white;
+            color: var(--primary);
+            border-color: white;
+        }
+
+        .option.correct {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        .option.correct .option-letter {
+            background: white;
+            color: var(--success);
+            border-color: white;
+        }
+
+        .option.incorrect {
+            background: var(--error);
+            border-color: var(--error);
+            color: white;
+        }
+
+        .option.incorrect .option-letter {
+            background: white;
+            color: var(--error);
+            border-color: white;
+        }
+
+        .option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card);
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            flex: 1;
+        }
+
+        /* Results Screen */
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .results-hero {
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--primary-dark));
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .results-hero::before {
+            content: '🎉';
+            position: absolute;
+            font-size: 10rem;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .results-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .results-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .results-score {
+            font-size: 5rem;
+            font-weight: 900;
+            font-family: 'Manrope', sans-serif;
+            margin: 1.5rem 0;
+            line-height: 1;
+        }
+
+        .results-percentage {
+            font-size: 1.25rem;
+            opacity: 0.9;
+        }
+
+        .results-performance {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            padding: 0.75rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .results-breakdown {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .breakdown-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .breakdown-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .breakdown-stat {
+            text-align: center;
+            padding: 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 14px;
+        }
+
+        .breakdown-stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            font-family: 'Manrope', sans-serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .breakdown-stat-value.correct {
+            color: var(--success);
+        }
+
+        .breakdown-stat-value.incorrect {
+            color: var(--error);
+        }
+
+        .breakdown-stat-value.unanswered {
+            color: var(--warning);
+        }
+
+        .breakdown-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .results-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .btn-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        /* Leaderboard Screen */
+        .leaderboard-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--primary-dark));
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            color: white;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .leaderboard-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .leaderboard-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .leaderboard-list {
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-item:hover {
+            background: var(--bg-secondary);
+        }
+
+        .leaderboard-item.current-user {
+            background: var(--primary-light);
+        }
+
+        .dark .leaderboard-item.current-user {
+            background: rgba(7, 137, 48, 0.1);
+        }
+
+        .leaderboard-rank {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Manrope', sans-serif;
+            min-width: 60px;
+            color: var(--text-secondary);
+        }
+
+        .leaderboard-rank.top {
+            background: linear-gradient(135deg, var(--ethiopia-yellow), var(--accent-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .leaderboard-user {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .leaderboard-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--ethiopia-green), var(--ethiopia-yellow));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .leaderboard-stream {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .leaderboard-score {
+            font-size: 1.75rem;
+            font-weight: 800;
+            font-family: 'Manrope', sans-serif;
+            color: var(--primary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+            }
+
+            .user-info {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .user-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .logout-btn {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.85rem;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .welcome-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .auth-title {
+                font-size: 1.75rem;
+            }
+
+            .quiz-header {
+                padding: 1.5rem;
+            }
+
+            .question-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .question-text {
+                font-size: 1.15rem;
+            }
+
+            .results-title {
+                font-size: 2rem;
+            }
+
+            .results-score {
+                font-size: 4rem;
+            }
+
+            .leaderboard-item {
+                padding: 1.25rem 1rem;
+            }
+
+            .leaderboard-rank {
+                min-width: 50px;
+                font-size: 1.25rem;
+            }
+
+            .quiz-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-actions {
+                gap: 0.5rem;
+            }
+
+            .user-info span {
+                display: none;
+            }
+
+            .theme-toggle {
+                width: 36px;
+                height: 36px;
+            }
+
+            .breakdown-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Custom Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: var(--shadow-xl);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .modal-body {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 2px solid var(--border);
+        }
+
+        .btn-cancel:hover {
+            background: var(--bg-card);
+        }
+
+        .btn-confirm {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Registration Screen -->
+        <div id="registerScreen" class="screen active auth-screen">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">E</div>
+                    <h1 class="auth-title">ExamHub</h1>
+                    <p class="auth-subtitle">Learn. Practice. Excel.</p>
+                </div>
+
+                <div id="registerError" class="error-message"></div>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="registerName" class="form-input" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="registerPassword" class="form-input" placeholder="Create a password" required minlength="6">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Study Stream</label>
+                        <select id="registerStream" class="form-select" required>
+                            <option value="">Select your stream</option>
+                            <option value="natural">Natural Science</option>
+                            <option value="social">Social Science</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+
+                <div class="auth-footer">
+                    Already have an account? <span class="auth-link" onclick="showLogin()">Sign In</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen auth-screen">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">E</div>
+                    <h1 class="auth-title">Welcome Back</h1>
+                    <p class="auth-subtitle">Continue your learning journey</p>
+                </div>
+
+                <div id="loginError" class="error-message"></div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </form>
+
+                <div class="auth-footer">
+                    Don't have an account? <span class="auth-link" onclick="showRegister()">Sign Up</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Home Screen -->
+        <div id="homeScreen" class="screen">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">E</div>
+                    <span>ExamHub</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar"></div>
+                        <span id="userName"></span>
+                    </div>
+                    <button class="logout-btn" onclick="showLogoutConfirm()">Logout</button>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <div class="welcome-section">
+                    <div class="welcome-content">
+                        <div class="welcome-greeting">Hello, <span id="welcomeName"></span>! 👋</div>
+                        <h1 class="welcome-title">Ready to Excel Today?</h1>
+                        <p class="welcome-tagline">Choose a subject below to start practicing</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">📚</div>
+                        <div class="stat-value" id="totalQuizzes">0</div>
+                        <div class="stat-label">Quizzes Taken</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="totalCorrect">0</div>
+                        <div class="stat-label">Correct Answers</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-value" id="avgScore">0%</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value" id="userRank">-</div>
+                        <div class="stat-label">Leaderboard Rank</div>
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h2 class="section-title">Select a Subject</h2>
+                    <button class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; cursor: pointer; border: 2px solid var(--border); background: var(--bg-card);" onclick="showLeaderboard()">
+                        🏆 Leaderboard
+                    </button>
+                </div>
+
+                <div class="subjects-grid" id="subjectsGrid"></div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="screen">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">E</div>
+                    <span>ExamHub</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <div class="quiz-subject" id="quizSubjectName"></div>
+                        <div class="quiz-progress-info">
+                            <div class="quiz-question-number" id="questionNumber"></div>
+                            <div class="quiz-score" id="currentScore"></div>
+                        </div>
+                        <div class="quiz-progress-bar">
+                            <div class="quiz-progress-fill" id="quizProgressFill"></div>
+                        </div>
+                    </div>
+
+                    <div class="question-card">
+                        <div class="question-text" id="questionText"></div>
+                        <div class="options-container" id="optionsContainer"></div>
+                    </div>
+
+                    <div class="quiz-actions">
+                        <button class="btn btn-secondary" onclick="showQuitConfirm()" style="flex: 0 0 auto; padding: 1rem 2rem;">Quit Quiz</button>
+                        <button class="btn btn-primary btn-submit" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">E</div>
+                    <span>ExamHub</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <div class="results-container">
+                    <div class="results-hero">
+                        <div class="results-content">
+                            <h1 class="results-title">Quiz Complete!</h1>
+                            <div class="results-score" id="finalScore"></div>
+                            <div class="results-percentage" id="finalPercentage"></div>
+                            <div class="results-performance" id="performanceLabel"></div>
+                        </div>
+                    </div>
+
+                    <div class="results-breakdown">
+                        <h2 class="breakdown-title">Performance Breakdown</h2>
+                        <div class="breakdown-stats">
+                            <div class="breakdown-stat">
+                                <div class="breakdown-stat-value correct" id="correctCount">0</div>
+                                <div class="breakdown-stat-label">Correct</div>
+                            </div>
+                            <div class="breakdown-stat">
+                                <div class="breakdown-stat-value incorrect" id="incorrectCount">0</div>
+                                <div class="breakdown-stat-label">Incorrect</div>
+                            </div>
+                            <div class="breakdown-stat">
+                                <div class="breakdown-stat-value unanswered" id="unansweredCount">0</div>
+                                <div class="breakdown-stat-label">Unanswered</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="results-actions">
+                        <button class="btn btn-secondary btn-icon" onclick="showHome()">
+                            🏠 Home
+                        </button>
+                        <button class="btn btn-primary btn-icon" onclick="retryQuiz()">
+                            🔄 Retry Quiz
+                        </button>
+                        <button class="btn btn-secondary btn-icon" onclick="showLeaderboard()">
+                            🏆 Leaderboard
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard Screen -->
+        <div id="leaderboardScreen" class="screen">
+            <nav class="navbar">
+                <div class="logo">
+                    <div class="logo-icon">E</div>
+                    <span>ExamHub</span>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button class="btn-secondary" style="padding: 0.75rem 1.5rem; border-radius: 12px; font-weight: 700; cursor: pointer; border: 2px solid var(--border); background: var(--bg-card);" onclick="showHome()">
+                        ← Back to Home
+                    </button>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <div class="leaderboard-container">
+                    <div class="leaderboard-header">
+                        <h1 class="leaderboard-title">🏆 Leaderboard</h1>
+                        <p class="leaderboard-subtitle">Top performers across all subjects</p>
+                    </div>
+
+                    <div class="leaderboard-list" id="leaderboardList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirmModal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="modal-header" id="modalTitle"></div>
+                <div class="modal-body" id="modalMessage"></div>
+                <div class="modal-actions">
+                    <button class="btn btn-cancel" onclick="hideModal()">Cancel</button>
+                    <button class="btn btn-primary btn-confirm" id="modalConfirmBtn"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize dark mode
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon();
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateThemeIcon();
+        });
+
+        // App State
+        let currentUser = null;
+        let currentSubject = null;
+        let currentQuestionIndex = 0;
+        let quizQuestions = [];
+        let userAnswers = [];
+        let quizScore = 0;
+
+        // In-Memory Storage (replaces localStorage for iframe environment)
+        const appStorage = {
+            users: [],
+            currentUser: null
+        };
+
+        // Quiz Database - Grade 12 Ethiopian Curriculum
+        const quizDatabase = {
+            mathematics: {
+                name: 'Mathematics',
+                icon: '🔢',
+                stream: 'natural',
+                questions: [
+                    {
+                        question: 'What is the derivative of f(x) = x³ + 2x² - 5x + 3?',
+                        options: ['3x² + 4x - 5', '3x² + 2x - 5', 'x² + 4x - 5', '3x³ + 4x - 5'],
+                        correct: 0
+                    },
+                    {
+                        question: 'If sin(θ) = 3/5 and θ is in the first quadrant, what is cos(θ)?',
+                        options: ['3/5', '4/5', '5/3', '5/4'],
+                        correct: 1
+                    },
+                    {
+                        question: 'What is the sum of the first 10 terms of the arithmetic sequence: 2, 5, 8, 11, ...?',
+                        options: ['155', '145', '165', '175'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Solve for x: log₂(x) + log₂(x-3) = 2',
+                        options: ['x = 4', 'x = 3', 'x = 5', 'x = 2'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the area under the curve y = x² from x = 0 to x = 3?',
+                        options: ['9', '6', '12', '18'],
+                        correct: 0
+                    },
+                    {
+                        question: 'If matrix A = [[2, 1], [3, 4]], what is det(A)?',
+                        options: ['5', '8', '11', '2'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the solution to the equation: 2ˣ = 32?',
+                        options: ['x = 5', 'x = 4', 'x = 6', 'x = 3'],
+                        correct: 0
+                    },
+                    {
+                        question: 'In a geometric sequence, if a₁ = 3 and r = 2, what is a₅?',
+                        options: ['48', '24', '96', '12'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the slope of the tangent line to y = x² at x = 3?',
+                        options: ['6', '3', '9', '12'],
+                        correct: 0
+                    },
+                    {
+                        question: 'If P(A) = 0.3 and P(B) = 0.4, and A and B are independent, what is P(A ∩ B)?',
+                        options: ['0.12', '0.7', '0.24', '0.06'],
+                        correct: 0
+                    }
+                ]
+            },
+            physics: {
+                name: 'Physics',
+                icon: '⚡',
+                stream: 'natural',
+                questions: [
+                    {
+                        question: 'A car accelerates uniformly from rest to 20 m/s in 5 seconds. What is its acceleration?',
+                        options: ['4 m/s²', '5 m/s²', '10 m/s²', '2 m/s²'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the kinetic energy of a 2 kg object moving at 10 m/s?',
+                        options: ['100 J', '50 J', '200 J', '20 J'],
+                        correct: 0
+                    },
+                    {
+                        question: 'According to Ohm\'s Law, if V = 12V and R = 4Ω, what is the current I?',
+                        options: ['3 A', '4 A', '48 A', '8 A'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the frequency of a wave with wavelength 2m traveling at 10 m/s?',
+                        options: ['5 Hz', '10 Hz', '2 Hz', '20 Hz'],
+                        correct: 0
+                    },
+                    {
+                        question: 'A force of 10N is applied to an object with mass 2kg. What is its acceleration?',
+                        options: ['5 m/s²', '20 m/s²', '2 m/s²', '10 m/s²'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the potential energy of a 5kg object at height 10m? (g = 10 m/s²)',
+                        options: ['500 J', '50 J', '100 J', '250 J'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Two resistors 6Ω and 3Ω are connected in parallel. What is the equivalent resistance?',
+                        options: ['2Ω', '9Ω', '4.5Ω', '3Ω'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the momentum of a 4kg object moving at 5 m/s?',
+                        options: ['20 kg·m/s', '9 kg·m/s', '1.25 kg·m/s', '5 kg·m/s'],
+                        correct: 0
+                    },
+                    {
+                        question: 'A lens has a focal length of 20cm. What is its power in diopters?',
+                        options: ['5 D', '20 D', '0.2 D', '2 D'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the period of a pendulum with frequency 2 Hz?',
+                        options: ['0.5 s', '2 s', '4 s', '1 s'],
+                        correct: 0
+                    }
+                ]
+            },
+            chemistry: {
+                name: 'Chemistry',
+                icon: '🧪',
+                stream: 'natural',
+                questions: [
+                    {
+                        question: 'What is the molecular formula of glucose?',
+                        options: ['C₆H₁₂O₆', 'C₆H₆O₆', 'C₁₂H₂₂O₁₁', 'CH₄O'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the pH of a solution with [H⁺] = 1×10⁻³ M?',
+                        options: ['3', '11', '7', '4'],
+                        correct: 0
+                    },
+                    {
+                        question: 'How many moles are in 22g of CO₂? (C=12, O=16)',
+                        options: ['0.5 mol', '1 mol', '2 mol', '0.25 mol'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the oxidation state of Mn in KMnO₄?',
+                        options: ['+7', '+6', '+5', '+4'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which of the following is an alkene?',
+                        options: ['C₂H₄', 'C₂H₆', 'C₂H₂', 'CH₄'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the name of the compound NaCl?',
+                        options: ['Sodium chloride', 'Sodium hypochlorite', 'Sodium chlorate', 'Sodium perchlorate'],
+                        correct: 0
+                    },
+                    {
+                        question: 'In the reaction: N₂ + 3H₂ → 2NH₃, what is the coefficient of H₂?',
+                        options: ['3', '2', '1', '6'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What type of bond exists in a water (H₂O) molecule?',
+                        options: ['Covalent', 'Ionic', 'Metallic', 'Hydrogen'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which element has the electronic configuration 1s² 2s² 2p⁶ 3s²?',
+                        options: ['Magnesium', 'Sodium', 'Calcium', 'Aluminum'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the molar mass of H₂SO₄? (H=1, S=32, O=16)',
+                        options: ['98 g/mol', '100 g/mol', '96 g/mol', '94 g/mol'],
+                        correct: 0
+                    }
+                ]
+            },
+            biology: {
+                name: 'Biology',
+                icon: '🧬',
+                stream: 'natural',
+                questions: [
+                    {
+                        question: 'What is the powerhouse of the cell?',
+                        options: ['Mitochondria', 'Nucleus', 'Ribosome', 'Chloroplast'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which process produces ATP in the presence of oxygen?',
+                        options: ['Aerobic respiration', 'Fermentation', 'Glycolysis only', 'Photosynthesis'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the complementary base pair of Adenine in DNA?',
+                        options: ['Thymine', 'Cytosine', 'Guanine', 'Uracil'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which blood type is the universal donor?',
+                        options: ['O negative', 'AB positive', 'A positive', 'B negative'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the main function of chlorophyll in plants?',
+                        options: ['Absorb light energy', 'Store glucose', 'Transport water', 'Produce oxygen'],
+                        correct: 0
+                    },
+                    {
+                        question: 'How many chromosomes does a normal human diploid cell have?',
+                        options: ['46', '23', '92', '48'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the site of protein synthesis in a cell?',
+                        options: ['Ribosome', 'Nucleus', 'Golgi apparatus', 'Lysosome'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which enzyme breaks down starch into maltose?',
+                        options: ['Amylase', 'Pepsin', 'Lipase', 'Lactase'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the process by which plants lose water through their leaves?',
+                        options: ['Transpiration', 'Evaporation', 'Condensation', 'Precipitation'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which part of the brain controls balance and coordination?',
+                        options: ['Cerebellum', 'Cerebrum', 'Medulla oblongata', 'Hypothalamus'],
+                        correct: 0
+                    }
+                ]
+            },
+            english: {
+                name: 'English',
+                icon: '📖',
+                stream: 'both',
+                questions: [
+                    {
+                        question: 'Which of the following is a synonym for "ubiquitous"?',
+                        options: ['Omnipresent', 'Rare', 'Unique', 'Specific'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Identify the type of clause: "Because it was raining, we stayed inside."',
+                        options: ['Adverbial clause', 'Noun clause', 'Adjective clause', 'Independent clause'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What literary device is used in: "The stars danced in the night sky"?',
+                        options: ['Personification', 'Metaphor', 'Simile', 'Hyperbole'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Choose the correct form: "Neither the students nor the teacher ___ present."',
+                        options: ['was', 'were', 'are', 'have been'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the meaning of the idiom "break the ice"?',
+                        options: ['Start a conversation', 'Stop suddenly', 'Become angry', 'Solve a problem'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Identify the type of sentence: "Please close the door."',
+                        options: ['Imperative', 'Declarative', 'Interrogative', 'Exclamatory'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which word is an antonym of "benevolent"?',
+                        options: ['Malevolent', 'Kind', 'Generous', 'Thoughtful'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the past participle of "swim"?',
+                        options: ['Swum', 'Swam', 'Swimming', 'Swimmed'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which punctuation mark is used to show possession?',
+                        options: ['Apostrophe', 'Comma', 'Colon', 'Semicolon'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What type of narrative perspective is "I went to the store"?',
+                        options: ['First person', 'Second person', 'Third person limited', 'Third person omniscient'],
+                        correct: 0
+                    }
+                ]
+            },
+            history: {
+                name: 'History',
+                icon: '📜',
+                stream: 'social',
+                questions: [
+                    {
+                        question: 'Who was the founder of the Solomonic dynasty in Ethiopia?',
+                        options: ['Yekuno Amlak', 'Menelik I', 'Haile Selassie', 'Tewodros II'],
+                        correct: 0
+                    },
+                    {
+                        question: 'In which year did Ethiopia defeat Italy at the Battle of Adwa?',
+                        options: ['1896', '1935', '1941', '1868'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which Ethiopian emperor modernized the country in the 20th century?',
+                        options: ['Haile Selassie I', 'Menelik II', 'Tewodros II', 'Yohannes IV'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What was the capital of the Aksumite Empire?',
+                        options: ['Aksum', 'Gondar', 'Addis Ababa', 'Lalibela'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Who led the liberation of Ethiopia from Italian occupation in 1941?',
+                        options: ['Emperor Haile Selassie', 'Ras Makonnen', 'Balcha Safo', 'Abebe Aregai'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which ancient Ethiopian kingdom was known for its obelisks and trade?',
+                        options: ['Aksum', 'Zagwe', 'Solomonic', 'Gondarine'],
+                        correct: 0
+                    },
+                    {
+                        question: 'In which century were the rock-hewn churches of Lalibela built?',
+                        options: ['12th-13th century', '10th century', '15th century', '8th century'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Who was the Ethiopian leader during World War II?',
+                        options: ['Haile Selassie', 'Menelik II', 'Mengistu Haile Mariam', 'Tewodros II'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What significant event happened in Ethiopia in 1974?',
+                        options: ['Revolution and overthrow of monarchy', 'Battle of Adwa', 'Independence', 'Constitution adopted'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which Ethiopian city served as the capital during the Gondarine period?',
+                        options: ['Gondar', 'Addis Ababa', 'Aksum', 'Harar'],
+                        correct: 0
+                    }
+                ]
+            },
+            geography: {
+                name: 'Geography',
+                icon: '🌍',
+                stream: 'social',
+                questions: [
+                    {
+                        question: 'What is the highest mountain in Ethiopia?',
+                        options: ['Ras Dashen', 'Mount Kilimanjaro', 'Mount Kenya', 'Bale Mountains'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which river forms part of Ethiopia\'s border with Somalia?',
+                        options: ['Shebelle River', 'Nile River', 'Awash River', 'Omo River'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the capital city of Ethiopia?',
+                        options: ['Addis Ababa', 'Dire Dawa', 'Bahir Dar', 'Mekelle'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which climate zone covers most of the Ethiopian Highlands?',
+                        options: ['Dega (Cool)', 'Kolla (Hot)', 'Woina Dega (Temperate)', 'Desert'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Lake Tana is the source of which major river?',
+                        options: ['Blue Nile', 'White Nile', 'Awash', 'Omo'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which Ethiopian region is known for its coffee production?',
+                        options: ['Oromia (Kaffa)', 'Tigray', 'Somali', 'Afar'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What type of landform is the Great Rift Valley?',
+                        options: ['Tectonic rift', 'Volcanic mountain', 'Plateau', 'Delta'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which desert is located in northeastern Ethiopia?',
+                        options: ['Danakil Desert', 'Sahara Desert', 'Kalahari Desert', 'Namib Desert'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is Ethiopia\'s largest export crop?',
+                        options: ['Coffee', 'Teff', 'Cotton', 'Sesame'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which Ethiopian city is known as the "City of Castles"?',
+                        options: ['Gondar', 'Aksum', 'Harar', 'Lalibela'],
+                        correct: 0
+                    }
+                ]
+            },
+            economics: {
+                name: 'Economics',
+                icon: '💰',
+                stream: 'social',
+                questions: [
+                    {
+                        question: 'What is the primary currency of Ethiopia?',
+                        options: ['Ethiopian Birr', 'Dollar', 'Shilling', 'Pound'],
+                        correct: 0
+                    },
+                    {
+                        question: 'In economics, what does GDP stand for?',
+                        options: ['Gross Domestic Product', 'General Development Plan', 'Global Distribution Process', 'Governmental Debt Portfolio'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What type of economic system does Ethiopia primarily have?',
+                        options: ['Mixed economy', 'Pure capitalism', 'Pure socialism', 'Traditional economy'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What happens to demand when the price of a good increases, all else equal?',
+                        options: ['Demand decreases', 'Demand increases', 'Demand stays the same', 'Supply decreases'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which sector employs the most people in Ethiopia?',
+                        options: ['Agriculture', 'Manufacturing', 'Services', 'Technology'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is inflation?',
+                        options: ['General increase in prices', 'General decrease in prices', 'Increase in production', 'Decrease in demand'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the study of individual economic units called?',
+                        options: ['Microeconomics', 'Macroeconomics', 'Development economics', 'International economics'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which organization regulates monetary policy in Ethiopia?',
+                        options: ['National Bank of Ethiopia', 'Ministry of Finance', 'Commercial Bank of Ethiopia', 'Development Bank of Ethiopia'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the term for goods that are used to produce other goods?',
+                        options: ['Capital goods', 'Consumer goods', 'Inferior goods', 'Normal goods'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is unemployment?',
+                        options: ['People willing and able to work but without jobs', 'People not in the labor force', 'Retired individuals', 'Students'],
+                        correct: 0
+                    }
+                ]
+            },
+            civics: {
+                name: 'Civics',
+                icon: '⚖️',
+                stream: 'social',
+                questions: [
+                    {
+                        question: 'What is the highest law of Ethiopia?',
+                        options: ['The Constitution', 'Parliamentary decree', 'Presidential order', 'Customary law'],
+                        correct: 0
+                    },
+                    {
+                        question: 'How many regional states does Ethiopia have?',
+                        options: ['11', '9', '10', '12'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What type of government does Ethiopia have?',
+                        options: ['Federal parliamentary republic', 'Presidential democracy', 'Constitutional monarchy', 'Unitary state'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which body makes federal laws in Ethiopia?',
+                        options: ['House of People\'s Representatives', 'House of Federation', 'Council of Ministers', 'Supreme Court'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the term of office for the Ethiopian President?',
+                        options: ['6 years', '4 years', '5 years', '7 years'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which branch of government interprets laws?',
+                        options: ['Judicial', 'Legislative', 'Executive', 'Administrative'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the minimum voting age in Ethiopia?',
+                        options: ['18 years', '21 years', '16 years', '20 years'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which document guarantees fundamental rights and freedoms in Ethiopia?',
+                        options: ['The Constitution', 'Civil Code', 'Criminal Code', 'Electoral Law'],
+                        correct: 0
+                    },
+                    {
+                        question: 'What is the principle of separation of powers?',
+                        options: ['Division of government into branches', 'Separation of church and state', 'Federal and regional division', 'Majority rule'],
+                        correct: 0
+                    },
+                    {
+                        question: 'Which house represents the nations and nationalities of Ethiopia?',
+                        options: ['House of Federation', 'House of People\'s Representatives', 'Council of Ministers', 'Regional Council'],
+                        correct: 0
+                    }
+                ]
+            }
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        }
+
+        function checkAuth() {
+            if (appStorage.currentUser) {
+                currentUser = appStorage.currentUser;
+                showHome();
+            } else {
+                showRegister();
+            }
+        }
+
+        // Authentication Functions
+        function handleRegister(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim().toLowerCase();
+            const password = document.getElementById('registerPassword').value;
+            const stream = document.getElementById('registerStream').value;
+
+            if (!name || !email || !password || !stream) {
+                showError('registerError', 'Please fill in all fields');
+                return;
+            }
+
+            // Check if user already exists
+            if (appStorage.users.find(u => u.email === email)) {
+                showError('registerError', 'An account with this email already exists');
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                id: Date.now().toString(),
+                name,
+                email,
+                password, // In production, this should be hashed
+                stream,
+                stats: {
+                    quizzesTaken: 0,
+                    totalCorrect: 0,
+                    totalQuestions: 0,
+                    subjectProgress: {}
+                },
+                quizHistory: []
+            };
+
+            appStorage.users.push(newUser);
+
+            // Log in the user
+            currentUser = newUser;
+            appStorage.currentUser = currentUser;
+
+            showHome();
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+
+            const user = appStorage.users.find(u => u.email === email && u.password === password);
+
+            if (!user) {
+                showError('loginError', 'Invalid email or password');
+                return;
+            }
+
+            currentUser = user;
+            appStorage.currentUser = currentUser;
+            showHome();
+        }
+
+        function logout() {
+            currentUser = null;
+            appStorage.currentUser = null;
+            showLogin();
+        }
+
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+
+            setTimeout(() => {
+                errorElement.classList.remove('show');
+            }, 5000);
+        }
+
+        // Screen Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showRegister() {
+            showScreen('registerScreen');
+            document.getElementById('registerForm').reset();
+            document.getElementById('registerError').classList.remove('show');
+        }
+
+        function showLogin() {
+            showScreen('loginScreen');
+            document.getElementById('loginForm').reset();
+            document.getElementById('loginError').classList.remove('show');
+        }
+
+        function showHome() {
+            showScreen('homeScreen');
+            updateHomeScreen();
+        }
+
+        function updateHomeScreen() {
+            if (!currentUser) return;
+
+            // Update user info
+            const firstName = currentUser.name.split(' ')[0];
+            document.getElementById('userName').textContent = firstName;
+            document.getElementById('welcomeName').textContent = firstName;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+
+            // Update stats
+            const stats = currentUser.stats;
+            document.getElementById('totalQuizzes').textContent = stats.quizzesTaken || 0;
+            document.getElementById('totalCorrect').textContent = stats.totalCorrect || 0;
+
+            const avgScore = stats.totalQuestions > 0
+                ? Math.round((stats.totalCorrect / stats.totalQuestions) * 100)
+                : 0;
+            document.getElementById('avgScore').textContent = avgScore + '%';
+
+            // Update rank
+            updateUserRank();
+
+            // Display subjects based on stream
+            displaySubjects();
+        }
+
+        function displaySubjects() {
+            const grid = document.getElementById('subjectsGrid');
+            grid.innerHTML = '';
+
+            Object.keys(quizDatabase).forEach(subjectKey => {
+                const subject = quizDatabase[subjectKey];
+
+                // Filter subjects by stream
+                if (subject.stream !== 'both' && subject.stream !== currentUser.stream) {
+                    return;
+                }
+
+                const progress = currentUser.stats.subjectProgress[subjectKey] || { completed: 0, total: subject.questions.length };
+                const percentage = Math.round((progress.completed / progress.total) * 100) || 0;
+
+                const card = document.createElement('div');
+                card.className = 'subject-card';
+                card.onclick = () => startQuiz(subjectKey);
+
+                card.innerHTML = `
+                    <span class="subject-icon">${subject.icon}</span>
+                    <h3 class="subject-name">${subject.name}</h3>
+                    <p class="subject-questions">${subject.questions.length} questions</p>
+                    <div class="subject-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <span class="progress-text">${percentage}%</span>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function updateUserRank() {
+            // Calculate total points for each user
+            const rankedUsers = appStorage.users.map(user => ({
+                ...user,
+                totalPoints: (user.stats?.totalCorrect || 0) * 10
+            })).sort((a, b) => b.totalPoints - a.totalPoints);
+
+            const userRank = rankedUsers.findIndex(u => u.id === currentUser.id) + 1;
+            document.getElementById('userRank').textContent = userRank > 0 ? `#${userRank}` : '-';
+        }
+
+        // Quiz Functions
+        function startQuiz(subjectKey) {
+            currentSubject = subjectKey;
+            const subject = quizDatabase[subjectKey];
+
+            // Shuffle questions
+            quizQuestions = [...subject.questions].sort(() => Math.random() - 0.5);
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizQuestions.length).fill(null);
+            quizScore = 0;
+
+            showScreen('quizScreen');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            const subject = quizDatabase[currentSubject];
+
+            document.getElementById('quizSubjectName').textContent = subject.name;
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}/${quizQuestions.length}`;
+            document.getElementById('currentScore').textContent = `Score: ${quizScore}/${currentQuestionIndex}`;
+            document.getElementById('questionText').textContent = question.question;
+
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('quizProgressFill').style.width = progress + '%';
+
+            // Display options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            const letters = ['A', 'B', 'C', 'D'];
+            question.options.forEach((option, index) => {
+                const optionEl = document.createElement('div');
+                optionEl.className = 'option';
+                optionEl.onclick = () => selectAnswer(index);
+
+                optionEl.innerHTML = `
+                    <div class="option-letter">${letters[index]}</div>
+                    <div class="option-text">${option}</div>
+                `;
+
+                // Restore selection if exists
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionEl.classList.add('selected');
+                }
+
+                optionsContainer.appendChild(optionEl);
+            });
+
+            // Update next button
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                nextBtn.textContent = 'Finish Quiz';
+            } else {
+                nextBtn.textContent = 'Next Question';
+            }
+        }
+
+        function selectAnswer(index) {
+            userAnswers[currentQuestionIndex] = index;
+
+            // Update UI
+            document.querySelectorAll('.option').forEach((opt, i) => {
+                opt.classList.remove('selected');
+                if (i === index) {
+                    opt.classList.add('selected');
+                }
+            });
+        }
+
+        function nextQuestion() {
+            // Check if answer was selected
+            if (userAnswers[currentQuestionIndex] === null) {
+                showCustomAlert('Please select an answer', 'Please select an answer before proceeding to the next question.');
+                return;
+            }
+
+            // Check if answer is correct
+            const question = quizQuestions[currentQuestionIndex];
+            if (userAnswers[currentQuestionIndex] === question.correct) {
+                quizScore++;
+            }
+
+            // Move to next question or show results
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            const totalQuestions = quizQuestions.length;
+            const percentage = Math.round((quizScore / totalQuestions) * 100);
+
+            // Count correct, incorrect, unanswered
+            let correct = 0;
+            let incorrect = 0;
+            let unanswered = 0;
+
+            quizQuestions.forEach((question, index) => {
+                if (userAnswers[index] === null) {
+                    unanswered++;
+                } else if (userAnswers[index] === question.correct) {
+                    correct++;
+                } else {
+                    incorrect++;
+                }
+            });
+
+            // Update UI
+            document.getElementById('finalScore').textContent = `${quizScore}/${totalQuestions}`;
+            document.getElementById('finalPercentage').textContent = `${percentage}%`;
+            document.getElementById('correctCount').textContent = correct;
+            document.getElementById('incorrectCount').textContent = incorrect;
+            document.getElementById('unansweredCount').textContent = unanswered;
+
+            // Performance label
+            const performanceLabel = document.getElementById('performanceLabel');
+            if (percentage >= 90) {
+                performanceLabel.textContent = '🌟 Excellent!';
+            } else if (percentage >= 75) {
+                performanceLabel.textContent = '👏 Great Job!';
+            } else if (percentage >= 60) {
+                performanceLabel.textContent = '👍 Good Effort!';
+            } else if (percentage >= 50) {
+                performanceLabel.textContent = '💪 Keep Practicing!';
+            } else {
+                performanceLabel.textContent = '📚 More Study Needed';
+            }
+
+            // Update user stats
+            updateUserStats(totalQuestions, quizScore);
+
+            showScreen('resultsScreen');
+        }
+
+        function updateUserStats(totalQuestions, score) {
+            const userIndex = appStorage.users.findIndex(u => u.id === currentUser.id);
+
+            if (userIndex !== -1) {
+                const stats = appStorage.users[userIndex].stats;
+                stats.quizzesTaken = (stats.quizzesTaken || 0) + 1;
+                stats.totalCorrect = (stats.totalCorrect || 0) + score;
+                stats.totalQuestions = (stats.totalQuestions || 0) + totalQuestions;
+
+                // Update subject progress
+                if (!stats.subjectProgress[currentSubject]) {
+                    stats.subjectProgress[currentSubject] = { completed: 0, total: quizDatabase[currentSubject].questions.length };
+                }
+                stats.subjectProgress[currentSubject].completed = Math.max(
+                    stats.subjectProgress[currentSubject].completed,
+                    score
+                );
+
+                // Add to quiz history
+                if (!appStorage.users[userIndex].quizHistory) {
+                    appStorage.users[userIndex].quizHistory = [];
+                }
+                appStorage.users[userIndex].quizHistory.push({
+                    subject: currentSubject,
+                    score: score,
+                    total: totalQuestions,
+                    percentage: Math.round((score / totalQuestions) * 100),
+                    date: new Date().toISOString()
+                });
+
+                // Update current user reference
+                currentUser = appStorage.users[userIndex];
+                appStorage.currentUser = currentUser;
+            }
+        }
+
+        function retryQuiz() {
+            if (currentSubject) {
+                startQuiz(currentSubject);
+            }
+        }
+
+        // Leaderboard
+        function showLeaderboard() {
+            showScreen('leaderboardScreen');
+            displayLeaderboard();
+        }
+
+        function displayLeaderboard() {
+            // Calculate total points and rank users
+            const rankedUsers = appStorage.users.map(user => ({
+                id: user.id,
+                name: user.name,
+                stream: user.stream,
+                totalPoints: (user.stats?.totalCorrect || 0) * 10,
+                quizzesTaken: user.stats?.quizzesTaken || 0,
+                avgScore: user.stats?.totalQuestions > 0
+                    ? Math.round((user.stats.totalCorrect / user.stats.totalQuestions) * 100)
+                    : 0
+            }))
+            .filter(u => u.quizzesTaken > 0) // Only show users who have taken quizzes
+            .sort((a, b) => b.totalPoints - a.totalPoints);
+
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = '';
+
+            if (rankedUsers.length === 0) {
+                list.innerHTML = `
+                    <div style="padding: 3rem; text-align: center; color: var(--text-secondary);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                        <div style="font-size: 1.25rem; font-weight: 600;">No rankings yet</div>
+                        <div style="margin-top: 0.5rem;">Be the first to take a quiz and appear on the leaderboard!</div>
+                    </div>
+                `;
+                return;
+            }
+
+            rankedUsers.forEach((user, index) => {
+                const item = document.createElement('div');
+                item.className = 'leaderboard-item';
+
+                if (currentUser && user.id === currentUser.id) {
+                    item.classList.add('current-user');
+                }
+
+                const rankClass = index < 3 ? 'top' : '';
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+
+                item.innerHTML = `
+                    <div class="leaderboard-rank ${rankClass}">${medal || (index + 1)}</div>
+                    <div class="leaderboard-user">
+                        <div class="leaderboard-avatar">${user.name.charAt(0).toUpperCase()}</div>
+                        <div class="leaderboard-info">
+                            <div class="leaderboard-name">${user.name}</div>
+                            <div class="leaderboard-stream">${user.stream === 'natural' ? 'Natural Science' : 'Social Science'}</div>
+                        </div>
+                    </div>
+                    <div class="leaderboard-score">${user.totalPoints}</div>
+                `;
+
+                list.appendChild(item);
+            });
+        }
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const isDark = document.documentElement.classList.contains('dark');
+            document.querySelectorAll('.theme-icon').forEach(icon => {
+                icon.textContent = isDark ? '☀️' : '🌙';
+            });
+        }
+
+        // Custom Modal Functions
+        function showCustomAlert(title, message) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">${title}</div>
+                    <div class="modal-body">${message}</div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="this.closest('.modal-overlay').remove()" style="width: 100%;">OK</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showLogoutConfirm() {
+            showConfirmDialog(
+                'Logout',
+                'Are you sure you want to logout?',
+                'Logout',
+                logout
+            );
+        }
+
+        function showQuitConfirm() {
+            showConfirmDialog(
+                'Quit Quiz',
+                'Are you sure you want to quit? Your progress will not be saved.',
+                'Quit',
+                showHome
+            );
+        }
+
+        function showConfirmDialog(title, message, confirmText, onConfirm) {
+            const modal = document.getElementById('confirmModal');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.textContent = confirmText;
+            confirmBtn.onclick = () => {
+                hideModal();
+                onConfirm();
+            };
+
+            modal.classList.add('active');
+        }
+
+        function hideModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('confirmModal').addEventListener('click', (e) => {
+            if (e.target.id === 'confirmModal') {
+                hideModal();
+            }
+        });
+    </script>
+</body>
+</html>
